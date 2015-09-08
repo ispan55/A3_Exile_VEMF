@@ -16,7 +16,7 @@
 private // Make sure that the vars in this function do not interfere with vars in the calling script
 [
 	"_pos","_locName","_grpCount","_unitsPerGrp","_sldrClass","_groups","_settings","_hc","_skills","_newPos","_return","_waypoints","_wp","_cyc","_units",
-	"_accuracy","_aimShake","_aimSpeed","_stamina","_spotDist","_spotTime","_courage","_reloadSpd","_commanding","_general","_loadInv"
+	"_accuracy","_aimShake","_aimSpeed","_stamina","_spotDist","_spotTime","_courage","_reloadSpd","_commanding","_general","_loadInv","_noHouses"
 ];
 
 _units = [];
@@ -48,22 +48,94 @@ if (count _pos isEqualTo 3) then
 				_commanding = _skills select 8;
 				_general = _skills select 9;
 
-				_units = [];
-				// Spawn Groups near Position
-				for "_g" from 1 to _grpCount do
+				_houses = nearestObjects [_pos, ["House"], 200]; // Find some houses to spawn in
+				_houseFilter = [];
+				{ // Filter the houses that are too small for one group
+					if (count ([_x] call BIS_fnc_buildingPositions) < _unitsPerGrp) then
+					{
+						_houseFilter pushBack _x;
+					};
+				} forEach _houses;
+				{
+					_index = _houses find _x;
+					if (_index > -1) then
+					{
+						_houses deleteAt _index;
+					};
+				} forEach _houseFilter;
+				_houses = _houses call BIS_fnc_arrayShuffle;
+				_noHouses = false;
+				if (count _houses < _grpCount) then
+				{
+					_noHouses = true;
+				};
+
+				_cal50s = [[["DLI"],["cal50s"]] call VEMF_fnc_getSetting, 0, 3, [0]] call BIS_fnc_param;
+				_units = []; // Define units array. the for loops below will fill it with units
+				for "_g" from 1 to _grpCount do // Spawn Groups near Position
 				{
 					private ["_grp","_unit"];
 					_grp = createGroup WEST;
+					if not _noHouses then
+					{
+						_grp enableAttack false;
+					};
 					_grp setBehaviour "AWARE";
 					_grp setCombatMode "RED";
 					_grp allowFleeing 0;
+					private ["_house","_housePositions"];
+					if not _noHouses then
+					{
+						_house = _houses call VEMF_fnc_random;
+						_houseID = _houses find _house;
+						_houses deleteAt _houseID;
+						_housePositions = [_house] call BIS_fnc_buildingPositions;
+					};
 
+					_placed50 = false;
 					for "_u" from 1 to _unitsPerGrp do
 					{
-						_newPos = [_pos,0,200,1,0,200,0] call BIS_fnc_findSafePos; // Find Nearby Position
-						_unit = _grp createUnit [_sldrClass, _newPos, [], 0, "FORM"]; // Create Unit There
+						private ["_spawnPos","_hmg"];
+						if not _noHouses then
+						{
+							_spawnPos = _housePositions call VEMF_fnc_random;
+							if not _placed50 then
+							{
+								_placed50 = true;
+								if (_cal50s > 0) then
+								{
+									_hmg = createVehicle ["B_HMG_01_high_F", _spawnPos, [], 0, "CAN_COLLIDE"];
+									_hmg setVehicleLock "LOCKEDPLAYER";
+								};
+							};
+						};
+						if _noHouses then
+						{
+							_spawnPos = [_pos,20,250,1,0,200,0] call BIS_fnc_findSafePos; // Find Nearby Position
+						};
+
+						_unit = _grp createUnit [_sldrClass, _spawnPos, [], 0, "CAN_COLLIDE"]; // Create Unit There
+						if not _noHouses then
+						{
+							doStop _unit;
+							if (_cal50s > 0) then
+							{
+								if not isNil"_hmg" then
+								{
+									if not isNull _hmg then
+									{
+										_unit moveInGunner _hmg;
+										_hmg = nil;
+										_cal50s = _cal50s - 1;
+									};
+								};
+							};
+
+							_houseIndex = _housePositions find _spawnPos;
+							_housePositions deleteAt _houseIndex;
+						};
+
 						_unit addMPEventHandler ["mpkilled","if (isDedicated) then { _killed = _this select 0; _killer = _this select 1; _nameKiller = name (_this select 1); _dist = _killed distance _killer; [_killed, _killer, _nameKiller, _dist] spawn VEMF_fnc_aiKilled }"];
-						_unit addRating -8000;
 						_units pushBack _unit;
 						// Set skills
 						_unit setSkill ["aimingAccuracy", _accuracy];
@@ -90,25 +162,34 @@ if (count _pos isEqualTo 3) then
 
 				if (count _groups isEqualTo _grpCount) then
 				{
-					_waypoints =
-					[
-						[(_pos select 0), (_pos select 1)+50, 0],
-						[(_pos select 0)+50, (_pos select 1), 0],
-						[(_pos select 0), (_pos select 1)-50, 0],
-						[(_pos select 0)-50, (_pos select 1), 0]
-					];
-					{ // Make them Patrol
-						for "_z" from 1 to (count _waypoints) do
+					if not _noHouses then
+					{
 						{
-							_wp = _x addWaypoint [(_waypoints select (_z-1)), 10];
-							_wp setWaypointType "SAD";
-							_wp setWaypointCompletionRadius 20;
-						};
-						_cyc = _x addWaypoint [_pos,10];
-						_cyc setWaypointType "CYCLE";
-						_cyc setWaypointCompletionRadius 20;
-						[_x] spawn VEMF_fnc_signAI;
-					} forEach _groups;
+							[_x] spawn VEMF_fnc_signAI;
+						} forEach _groups;
+					};
+					if _noHouses then
+					{
+						_waypoints =
+						[
+							[(_pos select 0), (_pos select 1)+50, 0],
+							[(_pos select 0)+50, (_pos select 1), 0],
+							[(_pos select 0), (_pos select 1)-50, 0],
+							[(_pos select 0)-50, (_pos select 1), 0]
+						];
+						{ // Make them Patrol
+							for "_z" from 1 to (count _waypoints) do
+							{
+								_wp = _x addWaypoint [(_waypoints select (_z-1)), 10];
+								_wp setWaypointType "SAD";
+								_wp setWaypointCompletionRadius 20;
+							};
+							_cyc = _x addWaypoint [_pos,10];
+							_cyc setWaypointType "CYCLE";
+							_cyc setWaypointCompletionRadius 20;
+							[_x] spawn VEMF_fnc_signAI;
+						} forEach _groups;
+					};
 				};
 			};
 		};

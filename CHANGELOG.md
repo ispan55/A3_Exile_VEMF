@@ -1,5 +1,12 @@
 ## VEMF Changelog
 
+#### `v1.0721.15`
+**[NEW]** AI will now spawn in houses <br />
+**[NEW]** Mounted (bipod) .50 cals in/on houses if enabled <br />
+**[ADDED]** Option to enable/disable AI "Cop mode" <br />
+**[CHANGED]** fn_spawnAI.sqf to allow spawning in houses <br />
+**[TWEAKED]** fn_loadInv.sqf <br />
+<br />
 #### `v1.0721.1`
 **[FIXED]** fn_spawnAI.sqf: Suspending not allowed in this context, line 72 <br />
 <br />

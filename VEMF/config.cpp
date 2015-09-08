@@ -15,7 +15,7 @@
 class VEMFconfig
 {
 	/////////////////////////////
-	VEMF_version = 1.0721.1; /// Do NOT change
+	VEMF_version = 1.0721.15; /// Do NOT change
 	/////////////////////////////
 	/////// Configure VEMF here ///////
 	// Global settings
@@ -29,14 +29,14 @@ class VEMFconfig
 	maxNew = 2; // Maximum time before new mission can run
 	missionList[] = {"DynamicLocationInvasion"}; // Speaks for itself, right?
 	addons[] = {}; // Not used for now
-	noMissionPos[] = {{{2998.62,18175.4,0.00143886},500},{{14601.3,16799.3,0.00143814},800},{{23334.8,24189.5,0.00132132},600}}; // Works | Format: {{position},radius} | Default: Exile safezones
-	locationBlackList[] = {"Sagonisi","Monisi","Fournos","Savri","Atsalis","Polemista","Cap Makrinos","Pyrgi","Makrynisi","Chelonisi","Almyra","Surf Club"};  // Works
+	noMissionPos[] = {{{2998.62,18175.4,0.00143886},500},{{14601.3,16799.3,0.00143814},800},{{23334.8,24189.5,0.00132132},600}}; // Format: {{position},radius} | Default: Exile safezones
+	locationBlackList[] = {"Sagonisi","Monisi","Fournos","Savri","Atsalis","Polemista","Cap Makrinos","Pyrgi","Makrynisi","Chelonisi","Almyra","Surf Club"};
 	killPercentage = 100; // In percent. 100 means all AI that belong to mission need to be killed
 	sayKilled = 1; // Set to -1 if you do not want AI killed messages
 	allowSmall = 1; // Set to -1 if you do not want missions to target very small unusual locations
 	keepLaunchers = 1; // Use -1 to remove AI's launcher on killed
 	keepAIbodies = 1; // Set to -1 if you want the AI's body to be deleted after they are killed
-
+	aiPoliceMode = 1; // Use -1 to give AI normal soldier clothing
 	/////// Debugging/learning mode ///////
 	enableDebug = 0; // -1 to disable, 0 = ERRORS only | 1 = INFO only | 2 = ERRORS & INFO
 	///////////////////////////////////////
@@ -47,31 +47,31 @@ class VEMFconfig
 		difficulty = "Veteran"; // Options: "Easy" "Normal" "Veteran" "Hardcore" | Default: Veteran
 		class Easy // AI looks stupid with this setting xD
 		{
-			accuracy = 0.1; aimingShake = 0.25; aimingSpeed = 0.075; endurance = 0.15; spotDistance = 0.3; spotTime = 0.1; courage = 0.35; reloadSpeed = 0.1; commanding = 0.3; general = 0.15;
+			accuracy = 0.4; aimingShake = 0.20; aimingSpeed = 0.3; endurance = 0.25; spotDistance = 0.5; spotTime = 0.7; courage = 1; reloadSpeed = 0.3; commanding = 0.8; general = 0.3;
 		};
 		class Normal
 		{
-			accuracy = 0.15; aimingShake = 0.2; aimingSpeed = 0.1; endurance = 0.2; spotDistance = 0.4; spotTime = 0.15; courage = 0.5; reloadSpeed = 0.15; commanding = 0.4; general = 0.15;
+			accuracy = 0.4; aimingShake = 0.20; aimingSpeed = 0.3; endurance = 0.25; spotDistance = 0.5; spotTime = 0.7; courage = 1; reloadSpeed = 0.3; commanding = 0.8; general = 0.4;
 		};
 		class Veteran
 		{
-			accuracy = 0.2; aimingShake = 0.25; aimingSpeed = 0.15; endurance = 0.25; spotDistance = 0.5; spotTime = 0.2; courage = 0.7; reloadSpeed = 0.15; commanding = 0.5; general = 0.3;
+			accuracy = 0.4; aimingShake = 0.20; aimingSpeed = 0.3; endurance = 0.25; spotDistance = 0.5; spotTime = 0.7; courage = 1; reloadSpeed = 0.3; commanding = 0.8; general = 0.5;
 		};
 		class Hardcore // Also known as Aimbots
 		{
-			accuracy = 0.3; aimingShake = 0.3; aimingSpeed = 0.2; endurance = 0.5; spotDistance = 0.7; spotTime = 0.25; courage = 1; reloadSpeed = 0.3; commanding = 0.8; general = 0.5;
+			accuracy = 0.4; aimingShake = 0.20; aimingSpeed = 0.3; endurance = 0.25; spotDistance = 0.5; spotTime = 0.7; courage = 1; reloadSpeed = 0.3; commanding = 0.8; general = 0.7;
 		};
 	};
 
 	class DLI // DynamicLocationInvasion settings
 	{
-		useMarker = 0; // Use -1 to disable mission markers
+		useMarker = 1; // Use -1 to disable mission markers
 		maxInvasions = 5; // Max amount of active uncompleted invasions allowed at the same time
+		cal50s = 3; // Max amount of .50 caliber machineguns at mission | Needs to be lower than total unit count per mission
 		groupCount = 4; // Amount of groups that spawn at location
-		groupUnits = 4; // Amount of units in each group
-		/* TIP: increase groupCount and decrease groupUnits to make it harder for players. Easier to get flanked from all sides */
-		useLaunchers = 0; // Set to 0 if you do NOT want the AI to have launchers
-			remLaunchers = 1; // Set to 0 if you do NOT want the launcher (and its ammo) to be removed from AI when they die
+		groupUnits = 4; // Amount of units in each group. Better to keep this low and increase the groupCount instead.
+		useLaunchers = 1; // Set to -1 if you do NOT want the AI to have launchers
+			remLaunchers = 1; // Set to -1 if you do NOT want the launcher (and its ammo) to be removed from AI when they die
 			hasLauncherChance = 25; // In percentage. How big the chance is that a unit gets a launcher
 		playerCheck = 800; // If player(s) within this range of location, location gets skipped. Distance in m (meters)
 		distanceCheck = 15000; // Check for locations around random player within this distance in m (meters)
@@ -86,10 +86,37 @@ class VEMFconfig
 		crateTypes[] = {"I_CargoNet_01_ammo_F","O_CargoNet_01_ammo_F","B_CargoNet_01_ammo_F","I_supplyCrate_F","Box_East_AmmoVeh_F","Box_NATO_AmmoVeh_F"};
 		smokeTypes[] = {"SmokeShell","SmokeShellBlue","SmokeShellGreen","SmokeShellOrange","SmokeShellRed","SmokeShellYellow"};
 		flairTypes[] = {"Chemlight_green","Chemlight_red","Chemlight_yellow","Chemlight_blue"};
-		placeMines = -1; // Set to -1 if you do not want mines at missions | using infiSTAR? set _RAM to false if you set placeMines to 1
+		placeMines = 1; // Set to -1 if you do not want mines at missions | using infiSTAR? set _RAM to false if you set placeMines to 1
 		minesMode = 1; // 1 = Anti-Armor | 2 = Anti-Personell | 3 = Both Anti-Armor and Anti-Personell
-		minesAmount = 20; // Ignore if placeMines = -1;
-		cleanMines = 2; // 1 = remove mines when mission done | 2 = explode mines when mission done :D guarenteed chaos, LOL!
+			minesAmount = 20; // Ignore if placeMines = -1;
+			cleanMines = 1; // 1 = remove mines when mission done | 2 = explode mines when mission done :D guarenteed chaos, LOL!
+	};
+
+	class policeConfig
+	{
+		uniforms[] = {"U_C_Journalist","U_Rangemaster","U_Marshal","U_Competitor"};
+		headGear[] =
+		{
+			"H_Cap_police","H_Beret_blk_POLICE","H_Cap_blk_ION","H_Cap_khaki_specops_UK","H_Cap_tan_specops_US","H_Cap_brn_SPECOPS","H_Cap_blk_CMMG","H_Cap_blk","H_Cap_blu","H_Cap_red",
+			"H_Cap_press","H_Cap_usblack","H_Beret_brn_SF","H_Beret_Colonel"
+		};
+		vests[] = {"V_TacVest_blk_POLICE","V_PlateCarrierSpec_blk","V_PlateCarrierGL_blk","V_TacVestCamo_khk","V_TacVest_blk","V_BandollierB_blk","V_Rangemaster_belt"};
+		rifles[] =
+		{
+			"arifle_Katiba_F","arifle_Katiba_C_F","arifle_Katiba_GL_F","arifle_Mk20_F","arifle_Mk20_plain_F","arifle_Mk20C_F","arifle_Mk20C_plain_F","arifle_Mk20_GL_F","arifle_Mk20_GL_plain_F",
+			"arifle_MXC_F","arifle_MX_F","arifle_MX_SW_F","arifle_MXC_Black_F","arifle_MX_Black_F","arifle_TRG21_F","arifle_TRG20_F","arifle_TRG21_GL_F","hgun_PDW2000_F","SMG_01_F","SMG_02_F"
+		};
+		pistols[] = {"hgun_ACPC2_F","hgun_P07_F","hgun_Pistol_heavy_01_F","hgun_Pistol_heavy_02_F","hgun_Rook40_F"};
+		backpacks[] =
+		{
+			"B_AssaultPack_khk","B_AssaultPack_dgtl","B_AssaultPack_rgr","B_AssaultPack_sgg","B_AssaultPack_cbr",
+			"B_AssaultPack_mcamo","B_TacticalPack_rgr","B_TacticalPack_mcamo","B_TacticalPack_ocamo","B_TacticalPack_blk",
+			"B_TacticalPack_oli","B_FieldPack_khk","B_FieldPack_ocamo","B_FieldPack_oucamo","B_FieldPack_cbr",
+			"B_FieldPack_blk","B_Carryall_ocamo","B_Carryall_oucamo","B_Carryall_mcamo","B_Carryall_khk","B_Carryall_cbr",
+			"B_Parachute","B_FieldPack_oli","B_Carryall_oli","B_Kitbag_Base","B_Kitbag_cbr","B_Kitbag_mcamo",
+			"B_Kitbag_rgr","B_Kitbag_sgg","B_OutdoorPack_Base","B_OutdoorPack_blk","B_OutdoorPack_blu",
+			"B_OutdoorPack_tan"
+		};
 	};
 
 	// Loot crate configuration

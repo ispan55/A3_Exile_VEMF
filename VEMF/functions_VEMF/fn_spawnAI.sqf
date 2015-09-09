@@ -135,7 +135,7 @@ if (count _pos isEqualTo 3) then
 							_housePositions deleteAt _houseIndex;
 						};
 
-						_unit addMPEventHandler ["mpkilled","if (isDedicated) then { _killed = _this select 0; _killer = _this select 1; _nameKiller = name (_this select 1); _dist = _killed distance _killer; [_killed, _killer, _nameKiller, _dist] spawn VEMF_fnc_aiKilled }"];
+						_unit addMPEventHandler ["mpkilled","if (isDedicated) then { [_this select 0, _this select 1] spawn VEMF_fnc_aiKilled }"];
 						_units pushBack _unit;
 						// Set skills
 						_unit setSkill ["aimingAccuracy", _accuracy];

@@ -15,7 +15,7 @@
 class VEMFconfig
 {
 	/////////////////////////////
-	VEMF_version = 1.0721.15; /// Do NOT change
+	VEMF_version = 1.0722.15; /// Do NOT change
 	/////////////////////////////
 	/////// Configure VEMF here ///////
 	// Global settings
@@ -37,6 +37,9 @@ class VEMFconfig
 	keepLaunchers = 1; // Use -1 to remove AI's launcher on killed
 	keepAIbodies = 1; // Set to -1 if you want the AI's body to be deleted after they are killed
 	aiPoliceMode = 1; // Use -1 to give AI normal soldier clothing
+	giveKillerRespect = 1; // Use -1 to not give the killer of AI respect
+		baseRespectGive = 15; // Minimum respect gain. VEMF dynamically rewards higher for distance
+
 	/////// Debugging/learning mode ///////
 	enableDebug = 0; // -1 to disable, 0 = ERRORS only | 1 = INFO only | 2 = ERRORS & INFO
 	///////////////////////////////////////
@@ -76,8 +79,8 @@ class VEMFconfig
 		playerCheck = 800; // If player(s) within this range of location, location gets skipped. Distance in m (meters)
 		distanceCheck = 15000; // Check for locations around random player within this distance in m (meters)
 		/* distanceCheck NOTE: set it to the minimal distance between ANY town on the map you are using. Otherwise location selection will fail */
-		distanceTooClose = 2500; // Mission will not spawn closer to random player than this distance in meters
-		distanceMaxPrefered = 4500; // Mission will prefer locations closer than this distance (in meters) to random player
+		distanceTooClose = 2000; // Mission will not spawn closer to random player than this distance in meters
+		distanceMaxPrefered = 7000; // Mission will prefer locations closer than this distance (in meters) to random player
 		parachuteCrate = -1; // Use -1 to disable the crate parachuting in
 			crateAltitude = 250; // Crate with parachute(!) will spawn at this altitude (meters)
 		crateMapMarker = 1; // Use -1 if you do not want a marker to be placed on the crate

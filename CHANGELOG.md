@@ -1,5 +1,10 @@
 ## VEMF Changelog
 
+#### `v1.0.722.15`
+**[NEW]** Player now get reputation for killing AI. Dynamically increases depending on kill distance <br />
+**[FIXED]** Unstable fn_random.sqf <br />
+<br />
+
 #### `v1.0721.15`
 **[NEW]** AI will now spawn in houses <br />
 **[NEW]** Mounted (bipod) .50 cals in/on houses if enabled <br />

@@ -1,6 +1,10 @@
 ## VEMF Changelog
 
-#### `v1.0.722.15`
+#### `v1.0723.1 HOTFIX`
+**[FIXED]** fn_aiKilled.sqf: error Undefined variable in expression _unit <br />
+<br />
+
+#### `v1.0722.15`
 **[NEW]** Player now get reputation for killing AI. Dynamically increases depending on kill distance <br />
 **[FIXED]** Unstable fn_random.sqf <br />
 <br />

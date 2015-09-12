@@ -15,7 +15,7 @@
 class VEMFconfig
 {
 	/////////////////////////////
-	VEMF_version = 1.0722.15; /// Do NOT change
+	VEMF_version = 1.0723.1; /// Do NOT change
 	/////////////////////////////
 	/////// Configure VEMF here ///////
 	// Global settings
@@ -89,7 +89,7 @@ class VEMFconfig
 		crateTypes[] = {"I_CargoNet_01_ammo_F","O_CargoNet_01_ammo_F","B_CargoNet_01_ammo_F","I_supplyCrate_F","Box_East_AmmoVeh_F","Box_NATO_AmmoVeh_F"};
 		smokeTypes[] = {"SmokeShell","SmokeShellBlue","SmokeShellGreen","SmokeShellOrange","SmokeShellRed","SmokeShellYellow"};
 		flairTypes[] = {"Chemlight_green","Chemlight_red","Chemlight_yellow","Chemlight_blue"};
-		placeMines = 1; // Set to -1 if you do not want mines at missions | using infiSTAR? set _RAM to false if you set placeMines to 1
+		placeMines = 1; // Set to -1 if you do not want mines at missions
 		minesMode = 1; // 1 = Anti-Armor | 2 = Anti-Personell | 3 = Both Anti-Armor and Anti-Personell
 			minesAmount = 20; // Ignore if placeMines = -1;
 			cleanMines = 1; // 1 = remove mines when mission done | 2 = explode mines when mission done :D guarenteed chaos, LOL!

@@ -77,13 +77,13 @@ if (damage _target isEqualto 1) then
 	_remLaunchers = _settings select 0;
 	if (_remLaunchers isEqualTo -1) then
 	{
-		_secWeapon = secondaryWeapon _unit;
+		_secWeapon = secondaryWeapon _target;
 		if not(_secWeapon isEqualTo "") then
 		{
 			_target removeWeaponGlobal _secWeapon;
 			_missiles = getArray (configFile >> "cfgWeapons" >> _secWeapon >> "magazines");
 			{
-				if (_x in (magazines _unit)) then
+				if (_x in (magazines _target)) then
 				{
 					_target removeMagazine _x;
 				};
@@ -93,10 +93,10 @@ if (damage _target isEqualto 1) then
 
 	if ((_settings select 1) isEqualTo -1) then // If killEffect enabled
 	{
-		playSound3D ["A3\Missions_F_Bootcamp\data\sounds\vr_shutdown.wss", _unit, false, getPosASL _unit, 2, 1, 60];
+		playSound3D ["A3\Missions_F_Bootcamp\data\sounds\vr_shutdown.wss", _target, false, getPosASL _target, 2, 1, 60];
 		for "_u" from 1 to 8 do
 		{
-			if not(isObjectHidden _unit) then
+			if not(isObjectHidden _target) then
 			{
 				_target hideObjectGlobal true;
 			} else
@@ -106,8 +106,8 @@ if (damage _target isEqualto 1) then
 			uiSleep 0.15;
 		};
 		_target hideObjectGlobal true;
-		removeAllWeapons _unit;
+		removeAllWeapons _target;
 		// Automatic cleanup yaaay
-		deleteVehicle _unit;
+		deleteVehicle _target;
 	};
 };

@@ -25,6 +25,7 @@ _settings = [["locationBlackList","allowSmall","noMissionPos"]] call VEMF_fnc_ge
 _blackList = [_settings, 0, [], [[]]] call BIS_fnc_param;
 _allowSmall = [_settings, 1, 1, [0]] call BIS_fnc_param;
 _blackPos = [_settings, 2, [], [[]]] call BIS_fnc_param;
+_missionDistance = [_settings, 3, 3000, [0]] call BIS_fnc_param;
 _checkBlackPos = false;
 if (count _blackPos > 0) then
 {
@@ -107,6 +108,17 @@ if not(_mode isEqualTo "") then
 													_remLocs pushBack _x;
 												};
 											};
+										};
+										if (count _usedLocs > 0) then
+										{
+											private ["_loc"];
+											_loc = _x;
+											{
+												if (((locationPosition _loc) distance (_x select 1)) < _missionDistance) then
+												{
+													_remLocs pushBack _loc;
+												};
+											} forEach _usedLocs;
 										};
 									};
 								} forEach _locs;

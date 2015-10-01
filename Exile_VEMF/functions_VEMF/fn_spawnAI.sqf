@@ -74,6 +74,13 @@ if (count _pos isEqualTo 3) then
 				_units = []; // Define units array. the for loops below will fill it with units
 				for "_g" from 1 to _grpCount do // Spawn Groups near Position
 				{
+					if not _noHouses then
+					{
+						if (count _houses < 1) then
+						{
+							_noHouses = true
+						};
+					};
 					private ["_grp","_unit"];
 					_grp = createGroup WEST;
 					if not _noHouses then

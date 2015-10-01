@@ -13,9 +13,47 @@
 */
 
 _target = [_this, 0, objNull, [objNull]] call BIS_fnc_param;
-if (damage _target isEqualto 1) then
+if not(alive _target) then
 {
-	_target removeAllEventHandlers "HitPart";
+	_target removeAllEventHandlers "MPKilled";
+	_settings = [["keepLaunchers","keepAIbodies"]] call VEMF_fnc_getSetting;
+	_keepLaunchers = _settings select 0;
+	if (_keepLaunchers isEqualTo -1) then
+	{
+		_secWeapon = secondaryWeapon _target;
+		if not(_secWeapon isEqualTo "") then
+		{
+			_missiles = getArray (configFile >> "cfgWeapons" >> _secWeapon >> "magazines");
+			{
+				if (_x in _missiles) then
+				{
+					_target removeMagazine _x;
+				};
+			} forEach (magazines _target);
+			_target removeWeaponGlobal _secWeapon;
+		};
+	};
+
+	if ((_settings select 1) isEqualTo -1) then // If killEffect enabled
+	{
+		playSound3D ["A3\Missions_F_Bootcamp\data\sounds\vr_shutdown.wss", _target, false, getPosASL _target, 2, 1, 60];
+		for "_u" from 1 to 8 do
+		{
+			if not(isObjectHidden _target) then
+			{
+				_target hideObjectGlobal true;
+			} else
+			{
+				_target hideObjectGlobal false;
+			};
+			uiSleep 0.15;
+		};
+		_target hideObjectGlobal true;
+		removeAllWeapons _target;
+		// Automatic cleanup yaaay
+		deleteVehicle _target;
+	};
+
 	_killer = [_this, 1, objNull, [objNull]] call BIS_fnc_param;
 	if not isNull _killer then
 	{
@@ -71,43 +109,5 @@ if (damage _target isEqualto 1) then
 				};
 			};
 		};
-	};
-
-	_settings = [["keepLaunchers","keepAIbodies"]] call VEMF_fnc_getSetting;
-	_remLaunchers = _settings select 0;
-	if (_remLaunchers isEqualTo -1) then
-	{
-		_secWeapon = secondaryWeapon _target;
-		if not(_secWeapon isEqualTo "") then
-		{
-			_target removeWeaponGlobal _secWeapon;
-			_missiles = getArray (configFile >> "cfgWeapons" >> _secWeapon >> "magazines");
-			{
-				if (_x in (magazines _target)) then
-				{
-					_target removeMagazine _x;
-				};
-			} forEach _missiles;
-		};
-	};
-
-	if ((_settings select 1) isEqualTo -1) then // If killEffect enabled
-	{
-		playSound3D ["A3\Missions_F_Bootcamp\data\sounds\vr_shutdown.wss", _target, false, getPosASL _target, 2, 1, 60];
-		for "_u" from 1 to 8 do
-		{
-			if not(isObjectHidden _target) then
-			{
-				_target hideObjectGlobal true;
-			} else
-			{
-				_target hideObjectGlobal false;
-			};
-			uiSleep 0.15;
-		};
-		_target hideObjectGlobal true;
-		removeAllWeapons _target;
-		// Automatic cleanup yaaay
-		deleteVehicle _target;
 	};
 };

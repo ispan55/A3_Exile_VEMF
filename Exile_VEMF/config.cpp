@@ -15,7 +15,7 @@
 class VEMFconfig
 {
 	/////////////////////////////
-	VEMF_version = 1.0723.1; /// Do NOT change
+	VEMF_version = 1.0723.6; /// Do NOT change
 	/////////////////////////////
 	/////// Configure VEMF here ///////
 	// Global settings
@@ -28,6 +28,7 @@ class VEMFconfig
 	minNew = 1; // Minimum time before new mission can run
 	maxNew = 2; // Maximum time before new mission can run
 	missionList[] = {"DynamicLocationInvasion"}; // Speaks for itself, right?
+	missionDistance = 3000; // Minimum distance between missions
 	addons[] = {}; // Not used for now
 	noMissionPos[] = {{{2998.62,18175.4,0.00143886},500},{{14601.3,16799.3,0.00143814},800},{{23334.8,24189.5,0.00132132},600}}; // Format: {{position},radius} | Default: Exile safezones
 	locationBlackList[] = {"Sagonisi","Monisi","Fournos","Savri","Atsalis","Polemista","Cap Makrinos","Pyrgi","Makrynisi","Chelonisi","Almyra","Surf Club"};
@@ -71,8 +72,8 @@ class VEMFconfig
 		useMarker = 1; // Use -1 to disable mission markers
 		maxInvasions = 5; // Max amount of active uncompleted invasions allowed at the same time
 		cal50s = 3; // Max amount of .50 caliber machineguns at mission | Needs to be lower than total unit count per mission
-		groupCount = 4; // Amount of groups that spawn at location
-		groupUnits = 4; // Amount of units in each group. Better to keep this low and increase the groupCount instead.
+		groupCount[] = {2,4}; // In format: {minimum, maximum}; VEMF will pick a random number between min and max. If you want the same amount always, use same numbers for minimum and maximum.
+		groupUnits[] = {4,6}; // How much units in each group. Works the same like groupCount
 		useLaunchers = 1; // Set to -1 if you do NOT want the AI to have launchers
 			remLaunchers = 1; // Set to -1 if you do NOT want the launcher (and its ammo) to be removed from AI when they die
 			hasLauncherChance = 25; // In percentage. How big the chance is that a unit gets a launcher
@@ -298,7 +299,7 @@ class VEMFconfig
 		};
 		aiLaunchers[] =
 		{
-			"launch_NLAW_F","launch_RPG32_F","launch_Titan_F","launch_Titan_short_F"
+			"launch_NLAW_F","launch_RPG32_F","launch_B_Titan_F","launch_B_Titan_short_F"
 		};
 		aiPistols[] =
 		{
@@ -308,11 +309,11 @@ class VEMFconfig
 };
 class CfgPatches
 {
-	class VEMF
+	class Exile_VEMF
 	{
-		units[] = {"O_Soldier_F"};
+		units[] = {"B_G_Soldier_AR_F"};
 		requiredAddons[] = {"exile_server"};
-		fileName = "VEMF.pbo";
+		fileName = "Exile_VEMF.pbo";
 		requiredVersion = 1.50;
 		author[]= {"Vampire","IT07"}; // Original author: Vampire. Permission to continue/remake VEMF given to IT07
 	};
@@ -324,7 +325,7 @@ class cfgFunctions
 		tag = "VEMF";
 		class functions
 		{
-			file = "\VEMF\functions_VEMF";
+			file = "Exile_VEMF\functions_VEMF";
 			class random {};
 			class log {};
 			class getSetting {};

@@ -9,18 +9,18 @@ _maxInvasions = _settings select 0;
 if isNil"VEMF_invasCount" then { VEMF_invasCount = 0; };
 if (VEMF_invasCount < _maxInvasions) then
 {
-	_grpCount = [_settings, 1, 1, [0]] call BIS_fnc_param;
-	_groupUnits = [_settings, 2, 1, [0]] call BIS_fnc_param;
-	_range = [_settings, 3, 15000, [0]] call BIS_fnc_param;
-	_tooClose = [_settings, 4, 2500, [0]] call BIS_fnc_param;
-	_maxPref = [_settings, 5, 4500, [0]] call BIS_fnc_param;
-	_playerCheck = [_settings, 6, 650, [0]] call BIS_fnc_param;
-	_crateAltitude = [_settings, 7, 250, [0]] call BIS_fnc_param;
-	_useMissionMarker = [_settings, 8, 1, [0]] call BIS_fnc_param;
-	_useChute = [_settings, 9, 1, [0]] call BIS_fnc_param;
-	_crateVisualMarker = [_settings, 10, 1, [0]] call BIS_fnc_param;
-	_crateMapMarker = [_settings, 11, 1, [0]] call BIS_fnc_param;
-	_crateSpawnSound = [_settings, 12, 1, [0]] call BIS_fnc_param;
+	_grpCount = _settings select 1;
+	_groupUnits = _settings select 2;
+	_range = _settings select 3;
+	_tooClose = _settings select 4;
+	_maxPref = _settings select 5;
+	_playerCheck = _settings select 6;
+	_crateAltitude = _settings select 7;
+	_useMissionMarker = _settings select 8;
+	_useChute = _settings select 9;
+	_crateVisualMarker = _settings select 10;
+	_crateMapMarker = _settings select 11;
+	_crateSpawnSound = _settings select 12;
 
 	// Find A Town to Invade
 	_loc = ["loc", false, position (playableUnits select floor random count playableUnits), _range, _tooClose, _maxPref, _playerCheck] call VEMF_fnc_findPos;
@@ -31,7 +31,16 @@ if (VEMF_invasCount < _maxInvasions) then
 		["DLI", 1, format["Invading %1...", _locName]] call VEMF_fnc_log;
 		VEMF_invasCount = VEMF_invasCount + 1;
 		// Send message to all players
-		_newMissionMsg = [format["%1 invaded near %2", _locName, mapGridPosition (_loc select 1)], ""] call VEMF_fnc_broadCast;
+		private ["_newMissionMsg"];
+		_aiPoliceMode = "aiPoliceMode" call VEMF_fnc_getSetting;
+		if (_aiPoliceMode isEqualTo 1) then
+		{
+			_newMissionMsg = [format["%1 Police forces are now controlling %2 @ %3", worldName, _locName, mapGridPosition (_loc select 1)], ""] call VEMF_fnc_broadCast;
+		};
+		if (_aiPoliceMode isEqualTo -1) then
+		{
+			_newMissionMsg = [format["Plundering groups have invaded %1 @ %2", _locName, mapGridPosition (_loc select 1)], ""] call VEMF_fnc_broadCast;
+		};
 		if _newMissionMsg then
 		{
 			if (_useMissionMarker isEqualTo 1) then
@@ -46,7 +55,7 @@ if (VEMF_invasCount < _maxInvasions) then
 			if _playerNear then
 			{
 				// Player is Near, so Spawn the Units
-				_spawned = [_loc select 1, _locName, _grpCount, _groupUnits] call VEMF_fnc_spawnAI;
+				_spawned = [_loc select 1, _locName, ((_grpCount select 0) + round random ((_grpCount select 1) - (_grpCount select 0))), ((_groupUnits select 0) + round random ((_groupUnits select 1) - (_groupUnits select 0)))] call VEMF_fnc_spawnAI;
 				if (count _spawned > 0) then
 				{
 					// Place mines if enabled
@@ -74,7 +83,11 @@ if (VEMF_invasCount < _maxInvasions) then
 					if _done then
 					{
 						// Broadcast
-						_completeMsg = [format["%1 has been cleared by the exiled near %2", _locName, mapGridPosition (_loc select 1)], ""] call VEMF_fnc_broadCast;
+						private ["_completeMsg"];
+						if (_aiPoliceMode isEqualTo 1) then
+						{
+							_completeMsg = [format["%1 @ %2 has been cleared of %3 Police forces", _locName, mapGridPosition (_loc select 1), worldName], ""] call VEMF_fnc_broadCast;
+						};
 						if _completeMsg then
 						{
 							// Choose a box
@@ -86,10 +99,13 @@ if (VEMF_invasCount < _maxInvasions) then
 							{
 								_chute = createVehicle ["I_Parachute_02_F", _pos, [], 0, "FLY"];
 								_chute setPos [getPos _chute select 0, getPos _chute select 1, _crateAltitude];
+								_chute enableSimulationGlobal true;
+
 								if not isNull _chute then
 								{
 									_crate = createVehicle [_box, getPos _chute, [], 0, "NONE"];
 									_crate allowDamage false;
+									_crate enableSimulationGlobal true;
 									_crate attachTo [_chute, [0,0,0]];
 									["DLI", 1, format ["Crate parachuted at: %1 / Grid: %2", (getPosATL _crate), mapGridPosition (getPosATL _crate)]] call VEMF_fnc_log;
 									_lootLoaded = [_crate] call VEMF_fnc_loadLoot;

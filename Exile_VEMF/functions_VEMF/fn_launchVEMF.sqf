@@ -6,9 +6,7 @@
 */
 
 _version = "VEMF_version" call VEMF_fnc_getSetting;
-diag_log "////////////////////////////////////////////";
-["Launcher", 3, format["Starting VEMF %1", _version]] call VEMF_fnc_log;
-diag_log "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\";
+["Launcher", 3, format["/////// Starting VEMF %1 \\\\\\\", _version]] call VEMF_fnc_log;
 uiNamespace setVariable ["vemfUsedLocs", []];
 uiNamespace setVariable ["vemfHCload", []];
 [] spawn VEMF_fnc_checkLoot; // Check loot tables if enabled

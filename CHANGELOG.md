@@ -1,7 +1,12 @@
 ## VEMF Changelog
 
+#### `v1.0724.1`
+**[NEW]** Option to control distance between each mission <br />
+**[CHANGED]** Server-side folder is now called Exile_VEMF <br />
+<br />
+
 #### `v1.0723.1 HOTFIX`
-**[FIXED]** fn_aiKilled.sqf: error Undefined variable in expression _unit <br />
+**[FIXED]** fn_aiKilled.sqf: error Undefined variable in expression unit <br />
 <br />
 
 #### `v1.0722.15`

@@ -21,7 +21,7 @@ private ["_settings","_locPos","_loc","_locName","_ret","_continue","_settings",
 
 _ret = false;
 // Define settings
-_settings = [["locationBlackList","allowSmall","noMissionPos"]] call VEMF_fnc_getSetting;
+_settings = [["locationBlackList","allowSmall","noMissionPos","missionDistance"]] call VEMF_fnc_getSetting;
 _blackList = [_settings, 0, [], [[]]] call BIS_fnc_param;
 _allowSmall = [_settings, 1, 1, [0]] call BIS_fnc_param;
 _blackPos = [_settings, 2, [], [[]]] call BIS_fnc_param;

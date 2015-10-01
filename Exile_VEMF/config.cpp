@@ -15,7 +15,7 @@
 class VEMFconfig
 {
 	/////////////////////////////
-	VEMF_version = 1.0723.6; /// Do NOT change
+	VEMF_version = 1.0724.1; /// Do NOT change
 	/////////////////////////////
 	/////// Configure VEMF here ///////
 	// Global settings

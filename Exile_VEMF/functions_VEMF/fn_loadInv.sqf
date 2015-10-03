@@ -79,7 +79,7 @@ if (typeName _this isEqualTo "ARRAY") then
 				_backpacks = _aiGear select 3;
 				_rifles = _aiGear select 5;
 				_pistols = _aiGear select 6;
-				_useLaunchers = ([["DLI"],["useLaunchers"]] call VEMF_fnc_getSetting) select 0;
+				_useLaunchers = ([["DynamicLocationInvasion"],["useLaunchers"]] call VEMF_fnc_getSetting) select 0;
 				if (_useLaunchers isEqualTo 1) then
 				{
 					_launchers = _aiGear select 4;

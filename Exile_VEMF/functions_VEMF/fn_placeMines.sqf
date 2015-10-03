@@ -15,7 +15,7 @@
 
 private ["_ok","_enabled","_pos","_min","_max","_amount","_minePos","_mine","_mines","_minesMode","_mineTypes"];
 _ok = false;
-_enabled = ([["DLI"],["placeMines"]] call VEMF_fnc_getSetting) select 0;
+_enabled = ([["DynamicLocationInvasion"],["placeMines"]] call VEMF_fnc_getSetting) select 0;
 if (_enabled isEqualTo 1) then
 {
     _pos = [_this, 0, [], [[]]] call BIS_fnc_param;
@@ -27,10 +27,10 @@ if (_enabled isEqualTo 1) then
             _max = [_this, 2, -1, [0]] call BIS_fnc_param;
             if (_max > _min) then
             {
-                _amount = ([["DLI"],["minesAmount"]] call VEMF_fnc_getSetting) select 0;
+                _amount = ([["DynamicLocationInvasion"],["minesAmount"]] call VEMF_fnc_getSetting) select 0;
                 if (_amount > -1) then
                 {
-                    _minesMode = [[["DLI"],["minesMode"]] call VEMF_fnc_getSetting, 0, 1, [0]] call BIS_fnc_param;
+                    _minesMode = [[["DynamicLocationInvasion"],["minesMode"]] call VEMF_fnc_getSetting, 0, 1, [0]] call BIS_fnc_param;
                     if (_minesMode isEqualTo 1) then { _mineTypes = ["ATMine"] };
                     if (_minesMode isEqualTo 2) then { _mineTypes = ["APERSMine"] };
                     if (_minesMode isEqualTo 3) then { _mineTypes = ["ATMine","APERSMine"] };

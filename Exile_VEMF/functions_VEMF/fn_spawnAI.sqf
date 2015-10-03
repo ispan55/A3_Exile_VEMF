@@ -16,10 +16,10 @@
 private // Make sure that the vars in this function do not interfere with vars in the calling script
 [
 	"_pos","_locName","_grpCount","_unitsPerGrp","_sldrClass","_groups","_settings","_hc","_skills","_newPos","_return","_waypoints","_wp","_cyc","_units",
-	"_accuracy","_aimShake","_aimSpeed","_stamina","_spotDist","_spotTime","_courage","_reloadSpd","_commanding","_general","_loadInv","_noHouses"
+	"_accuracy","_aimShake","_aimSpeed","_stamina","_spotDist","_spotTime","_courage","_reloadSpd","_commanding","_general","_loadInv","_noHouses","_cal50sVehs"
 ];
 
-_units = [];
+_spawned = [[],[]];
 _pos = [_this, 0, [], [[]]] call BIS_fnc_param;
 if (count _pos isEqualTo 3) then
 {
@@ -70,7 +70,11 @@ if (count _pos isEqualTo 3) then
 					_noHouses = true;
 				};
 
-				_cal50s = [[["DLI"],["cal50s"]] call VEMF_fnc_getSetting, 0, 3, [0]] call BIS_fnc_param;
+				_cal50s = [[["DynamicLocationInvasion"],["cal50s"]] call VEMF_fnc_getSetting, 0, 3, [0]] call BIS_fnc_param;
+				if (_cal50s isEqualTo 1) then
+				{
+					_cal50sVehs = [];
+				};
 				_units = []; // Define units array. the for loops below will fill it with units
 				for "_g" from 1 to _grpCount do // Spawn Groups near Position
 				{
@@ -113,6 +117,7 @@ if (count _pos isEqualTo 3) then
 								{
 									_hmg = createVehicle ["B_HMG_01_high_F", _spawnPos, [], 0, "CAN_COLLIDE"];
 									_hmg setVehicleLock "LOCKEDPLAYER";
+									(_spawned select 1) pushBack _hmg;
 								};
 							};
 						};
@@ -143,7 +148,7 @@ if (count _pos isEqualTo 3) then
 						};
 
 						_unit addMPEventHandler ["mpkilled","if (isDedicated) then { [_this select 0, _this select 1] spawn VEMF_fnc_aiKilled }"];
-						_units pushBack _unit;
+						(_spawned select 0) pushBack _unit;
 						// Set skills
 						_unit setSkill ["aimingAccuracy", _accuracy];
 						_unit setSkill ["aimingShake", _aimShake];
@@ -161,7 +166,7 @@ if (count _pos isEqualTo 3) then
 					_groups pushBack _grp; // Push it into the _groups array
 				};
 
-				_invLoaded = [_units,"Invasion"] call VEMF_fnc_loadInv; // Load the AI's inventory
+				_invLoaded = [_spawned select 0,"Invasion"] call VEMF_fnc_loadInv; // Load the AI's inventory
 				if isNil"_invLoaded" then
 				{
 					["fn_spawnAI", 0, "failed to load AI's inventory..."] call VEMF_fnc_log;
@@ -202,4 +207,4 @@ if (count _pos isEqualTo 3) then
 		};
 	};
 };
-_units
+_spawned

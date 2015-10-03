@@ -15,7 +15,7 @@
 class VEMFconfig
 {
 	/////////////////////////////
-	VEMF_version = 1.0724.1; /// Do NOT change
+	VEMF_version = 1.0724.3; /// Do NOT change
 	/////////////////////////////
 	/////// Configure VEMF here ///////
 	// Global settings
@@ -67,11 +67,13 @@ class VEMFconfig
 		};
 	};
 
-	class DLI // DynamicLocationInvasion settings
+	class DynamicLocationInvasion // DynamicLocationInvasion settings
 	{
 		useMarker = 1; // Use -1 to disable mission markers
 		maxInvasions = 5; // Max amount of active uncompleted invasions allowed at the same time
 		cal50s = 3; // Max amount of .50 caliber machineguns at mission | Needs to be lower than total unit count per mission
+			keep50s = -1; // Set to -1 to enable the removal of all 50s created by MI
+			cal50delMode = 1; // 1 is delete, 2 is destroy
 		groupCount[] = {2,4}; // In format: {minimum, maximum}; VEMF will pick a random number between min and max. If you want the same amount always, use same numbers for minimum and maximum.
 		groupUnits[] = {4,6}; // How much units in each group. Works the same like groupCount
 		useLaunchers = 1; // Set to -1 if you do NOT want the AI to have launchers

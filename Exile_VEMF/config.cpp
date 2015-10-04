@@ -156,7 +156,7 @@ class VEMFconfig
 			{"30Rnd_556x45_Stanag_Tracer_Yellow",20},{"30Rnd_65x39_caseless_mag",20},{"30Rnd_65x39_caseless_green",20},{"30Rnd_65x39_caseless_mag_Tracer",20},
 			{"30Rnd_65x39_caseless_green_mag_Tracer",20},{"20Rnd_762x51_Mag",20},{"7Rnd_408_Mag",20},{"5Rnd_127x108_Mag",20},{"100Rnd_65x39_caseless_mag",20},
 			{"100Rnd_65x39_caseless_mag_Tracer",20},{"200Rnd_65x39_cased_Box",20},{"200Rnd_65x39_cased_Box_Tracer",20},{"30Rnd_9x21_Mag",20},{"16Rnd_9x21_Mag",20},
-			{"30Rnd_45ACP_Mag_SMG_01",20},{"30Rnd_45ACP_Mag_SMG_01_Tracer_Green",20},{"9Rnd_45ACP_Mag",20},{"150Rnd_762x51_Box",20},{"150Rnd_762x51_Box_Tracer",20},
+			{"30Rnd_45ACP_Mag_SMG_01",20},{"30Rnd_45ACP_Mag_SMG_01_Tracer_Green",20},{"9Rnd_45ACP_Mag",20},
 			{"150Rnd_762x54_Box",20},{"150Rnd_762x54_Box_Tracer",20},{"11Rnd_45ACP_Mag",20},{"6Rnd_45ACP_Cylinder",20},{"10Rnd_762x51_Mag",20},{"10Rnd_762x54_Mag",20},
 			{"5Rnd_127x108_APDS_Mag",20},{"10Rnd_338_Mag",20},{"130Rnd_338_Mag",20},{"10Rnd_127x54_Mag",20},{"150Rnd_93x64_Mag",20},{"10Rnd_93x64_DMR_05_Mag",20}
 		};
